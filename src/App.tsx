@@ -1,14 +1,11 @@
-import React, { useMemo } from 'react';
 import './App.css';
-
-import { usePrevious, useWindowSize } from 'react-use';
-import Confetti from 'react-confetti';
-import { useEffect, useState } from 'react';
-import { If } from 'react-if';
 
 import { shuffle } from 'lodash';
 
-const EXPIRE_RUN_CONFETTI_MS = 150000;
+import React, { useMemo, useState } from 'react';
+import Confetti from 'react-confetti';
+import { If } from 'react-if';
+import { useWindowSize } from 'react-use';
 
 const CREW_NAME_LIST = [
 	'서니',
@@ -45,8 +42,6 @@ function App() {
 	const [isRunConfetti, setIsRunConfetti] = useState(false);
 	const [crewNameList, setCrewNameList] = useState(CREW_NAME_LIST);
 
-	const prevIsRunConfetti = usePrevious(isRunConfetti);
-
 	const onShuffle = () => {
 		setCrewNameList((prevState) => shuffle(prevState));
 
@@ -61,14 +56,6 @@ function App() {
 		return '👉 Click Me 👈';
 	}, [isRunConfetti]);
 
-	useEffect(() => {
-		if (isRunConfetti && !prevIsRunConfetti) {
-			setTimeout(() => {
-				setIsRunConfetti(false);
-			}, EXPIRE_RUN_CONFETTI_MS);
-		}
-	}, [isRunConfetti, prevIsRunConfetti]);
-
 	return (
 		<div className="App">
 			<header>
@@ -80,17 +67,17 @@ function App() {
 			</button>
 
 			<If condition={isRunConfetti}>
-				<ol>
-					{crewNameList.map((name, i) => (
-						<li key={'li-' + i}>
-							{i + 1}. {name}
-						</li>
-					))}
-				</ol>
-			</If>
+				<React.Fragment>
+					<ol>
+						{crewNameList.map((name, index) => (
+							<li key={'li-' + index}>
+								{index + 1}. {name}
+							</li>
+						))}
+					</ol>
 
-			<If condition={isRunConfetti}>
-				<Confetti run={isRunConfetti} width={width} height={height} />
+					<Confetti run={isRunConfetti} width={width} height={height} />
+				</React.Fragment>
 			</If>
 		</div>
 	);
