@@ -176,6 +176,12 @@ const EmptyText = styled.div`
   margin: 0 30px;
 `;
 
+const MemberForm = styled.form``;
+
+const MemberInput = styled.input``;
+
+const MemberSubmitButton = styled.button``;
+
 interface Locker {
   id: string;
   createdAt: string;
@@ -213,11 +219,23 @@ function Crews() {
     setIsRunConfetti(true);
   };
 
+  const onMemberSubmit = () => {};
+
   return (
     <Container>
       <Header>
         <h1>🗄 우아한테크코스 4기 잠실캠 사물함 🗄</h1>
       </Header>
+
+      <MemberForm>
+        <MemberInput
+          type='text'
+          placeholder='전체 인원의 닉네임을 콤마로 구분해서 입력해주세요.'
+        />
+        <MemberSubmitButton onClick={onMemberSubmit} type='submit'>
+          확인
+        </MemberSubmitButton>
+      </MemberForm>
 
       <StartButton onClick={onShuffle} disabled={isRunConfetti}>
         <h2>
@@ -240,6 +258,7 @@ function Crews() {
             ))}
         </SavedLockerList>
       </Wrapper>
+
       <>
         {isRunConfetti ? (
           <CrewLockerList>
