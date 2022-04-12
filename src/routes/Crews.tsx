@@ -148,13 +148,13 @@ function Crews() {
         <>
           <CrewLockerList>
             {crewNameList.map((name, index) => (
-              <Link to={`/random-locker/${name}`}>
-                <CrewLocker key={"li-" + index}>
+              <CrewLocker key={"li-" + index}>
+                <Link to={`/random-locker/${name}`}>
                   {index + 1}.
                   <br />
                   {name}
-                </CrewLocker>
-              </Link>
+                </Link>
+              </CrewLocker>
             ))}
           </CrewLockerList>
 
