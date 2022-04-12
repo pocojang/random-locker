@@ -215,10 +215,11 @@ function Crews() {
 
   const [isRunConfetti, setIsRunConfetti] = useState(false);
   const [crewNameList, setCrewNameList] = useState(CREW_NAME_LIST);
-  const [lockerList, setLockerList] = useState<Locker[]>([]);
+  const [lockerObject, setLockerObject] = useState<Locker[]>([]);
   const [members, setMembers] = useState("");
   const [lockerName, setLockerName] = useState("프론트엔드 4기");
   const [submit, setSubmit] = useState(false);
+  const [staticCrewNameList, setStaticCrewNameList] = useState(CREW_NAME_LIST);
 
   useEffect(() => {
     dbService.collection("lockerList").onSnapshot(snapshot => {
@@ -228,15 +229,16 @@ function Crews() {
         lockerList: doc.data().lockerList,
         lockerName: doc.data().lockerName,
       }));
-      setLockerList(lockerArray);
+      setLockerObject(lockerArray);
     });
-  }, [lockerList]);
+  }, []);
 
   const onShuffle = () => {
     if (!submit) {
       alert("사물함 배정 인원 확인 버튼을 먼저 눌러주세요.");
       return;
     }
+
     setCrewNameList(prevState => {
       const lockerList = shuffle(prevState);
       dbService.collection("lockerList").add({
@@ -261,6 +263,7 @@ function Crews() {
     } = event;
     setMembers(value);
     const memberList = members.split(",").map(name => name.trim());
+    setStaticCrewNameList(memberList);
     setCrewNameList(memberList);
   };
 
@@ -295,7 +298,7 @@ function Crews() {
 
       <TargetMemberWrapper>
         <TargetTitle>{lockerName}</TargetTitle>
-        {crewNameList.map((member, index) => (
+        {staticCrewNameList.map((member, index) => (
           <Link key={index} to={`/random-locker/${member}`}>
             <TargetMembers key={index}>{member}</TargetMembers>
           </Link>
@@ -305,7 +308,7 @@ function Crews() {
       <StartButton onClick={onShuffle} disabled={isRunConfetti}>
         <h2>
           {isRunConfetti
-            ? `🎊 ${lockerName} 사물함 배정완료 🎉`
+            ? `🎊 ${lockerName}사물함 배정완료 🎉`
             : "👉 사물함 배정하기 👈"}
         </h2>
       </StartButton>
@@ -328,7 +331,7 @@ function Crews() {
 
       <Wrapper>
         <SavedLockerList>
-          {lockerList
+          {lockerObject
             .sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
             .map(locker => (
               <SavedLockers key={locker.id}>
