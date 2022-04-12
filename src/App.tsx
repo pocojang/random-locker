@@ -51,7 +51,7 @@ function App() {
 	return (
 		<div className="App">
 			<header>
-				<h1>🗄 Woowahan Locker 🗄</h1>
+				<h1>🗄 Woowacourse Locker 🗄</h1>
 			</header>
 
 			<button onClick={onShuffle} disabled={isRunConfetti}>
