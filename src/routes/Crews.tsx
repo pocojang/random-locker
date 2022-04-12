@@ -1,11 +1,13 @@
 import shuffle from "lodash.shuffle";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
-import { If } from "react-if";
+import { If, Then } from "react-if";
 import useWindowSize from "react-use/lib/useWindowSize";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { dbService } from "../fbase";
+import { getDate } from "../utils";
 
 const CREW_NAME_LIST = [
   "소피아",
@@ -60,6 +62,10 @@ const Header = styled.div`
   color: white;
   min-height: 10vh;
   text-align: center;
+  h1 {
+    font-size: 30px;
+    font-weight: 800;
+  }
 `;
 
 const StartButton = styled.button`
@@ -67,9 +73,10 @@ const StartButton = styled.button`
   width: 100%;
   border: none;
   background-color: ${props => props.theme.accentColor};
-  color: #000;
+  color: #fff;
+  font-weight: 800;
   padding: 8px;
-  font-size: 16px;
+  font-size: 20px;
   cursor: pointer;
   text-align: center;
   margin-bottom: 2em;
@@ -81,8 +88,7 @@ const StartButton = styled.button`
 const CrewLockerList = styled.ol`
   border: none;
   height: 12vw;
-  max-height: 125px;
-
+  max-height: 100px;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-gap: 1em;
@@ -100,8 +106,7 @@ const CrewLocker = styled.li`
   font-weight: 800;
   border: 1px solid #eaeaea;
   height: 12vw;
-  max-height: 125px;
-
+  max-height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,45 +127,118 @@ const CrewLocker = styled.li`
   }
 `;
 
+const SavedLockerList = styled.ol`
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  list-style: none;
+  margin-bottom: 30px;
+  gap: 10px;
+  max-width: 10em;
+  padding: 0;
+  @media all and (max-width: 800px) {
+    grid-gap: 0.25em;
+  }
+`;
+
+const SavedLockers = styled.li`
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  margin-left: 0;
+  height: 60px;
+  border-radius: 5px;
+  background-color: ${props => props.theme.accentColor};
+  font-weight: 800;
+
+  @media all and (max-width: 750px) {
+    font-size: 16px;
+  }
+  @media all and (max-width: 630px) {
+    font-size: 13px;
+  }
+  @media all and (max-width: 530px) {
+    font-size: 11px;
+  }
+`;
+
+const DateListMade = styled.div``;
+
+interface Locker {
+  id: string;
+  createdAt: string;
+  lockerList: string[];
+}
+
 function Crews() {
   const { width, height } = useWindowSize();
 
   const [isRunConfetti, setIsRunConfetti] = useState(false);
   const [crewNameList, setCrewNameList] = useState(CREW_NAME_LIST);
+  const [lockerList, setLockerList] = useState<Locker[]>([]);
+
+  useEffect(() => {
+    dbService.collection("lockerList").onSnapshot(snapshot => {
+      const lockerArray = snapshot.docs.map(doc => ({
+        id: doc.id,
+        createdAt: doc.data().createdAt,
+        lockerList: doc.data().lockerList,
+      }));
+      setLockerList(lockerArray);
+    });
+  }, [lockerList]);
 
   const onShuffle = () => {
-    setCrewNameList(prevState => shuffle(prevState));
+    setCrewNameList(prevState => {
+      const lockerList = shuffle(prevState);
+      dbService.collection("lockerList").add({
+        lockerList,
+        createdAt: Date.now(),
+      });
 
+      return lockerList;
+    });
     setIsRunConfetti(true);
   };
 
   return (
     <Container>
       <Header>
-        <h1>🗄 Woowacourse Locker 🗄</h1>
+        <h1>🗄 우아한테크코스 4기 잠실캠 사물함 🗄</h1>
       </Header>
 
       <StartButton onClick={onShuffle} disabled={isRunConfetti}>
         <h2>{isRunConfetti ? "🎊 Congratulation 🎉" : "👉 Click Me 👈"}</h2>
       </StartButton>
 
-      <If condition={isRunConfetti}>
-        <>
-          <CrewLockerList>
-            {crewNameList.map((name, index) => (
-              <CrewLocker key={"li-" + index}>
-                <Link to={`/random-locker/${name}`}>
-                  {index + 1}.
-                  <br />
-                  {name}
+      <SavedLockerList>
+        {lockerList
+          .sort((a, b) => Number(b.createdAt) - Number(a.createdAt))
+          .map(locker => (
+            <SavedLockers key={locker.id}>
+              <DateListMade>
+                <Link to={`/random-locker/saved-list/${locker.createdAt}`}>
+                  {getDate(Number(locker.createdAt))}
                 </Link>
-              </CrewLocker>
-            ))}
-          </CrewLockerList>
+              </DateListMade>
+            </SavedLockers>
+          ))}
+      </SavedLockerList>
 
-          <Confetti run={isRunConfetti} width={width} height={height} />
-        </>
-      </If>
+      <CrewLockerList>
+        {crewNameList.map((name, index) => (
+          <CrewLocker key={"li-" + index}>
+            <Link to={`/random-locker/${name}`}>
+              {index + 1}.
+              <br />
+              {name}
+            </Link>
+          </CrewLocker>
+        ))}
+      </CrewLockerList>
+
+      <Confetti run={isRunConfetti} width={width} height={height} />
     </Container>
   );
 }

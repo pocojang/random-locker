@@ -137,7 +137,7 @@ function Crew() {
           .map(message => {
             return (
               <MessagesWrapper key={"li-" + message.id}>
-                <MessageDate>{getDate(message.createdAt)}</MessageDate>
+                <MessageDate>{getDate(Number(message.createdAt))}</MessageDate>
                 <MessageText>{message.text}</MessageText>
               </MessagesWrapper>
             );

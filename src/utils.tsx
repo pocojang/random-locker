@@ -1,4 +1,4 @@
-export const getDate = (timestamp: string) => {
+export const getDate = (timestamp: number) => {
   const date = new Date(timestamp);
   const convertedDate = `
     ${date.getFullYear()}/${date.getMonth() + 1}/${
