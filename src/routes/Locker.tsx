@@ -1,12 +1,14 @@
 import { useParams } from "react-router";
 import { getDate } from "../utils";
-import { useState, useEffect } from "react";
+import react, { useState, useEffect, Component } from "react";
 import { dbService } from "../fbase";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import html2canvas from "html2canvas";
 
 const Container = styled.div`
   margin: 0 auto;
+  height: 100vh;
 `;
 
 const Header = styled.div`
@@ -66,6 +68,26 @@ const CrewLocker = styled.li`
   }
 `;
 
+const CaptureButton = styled.button`
+  display: block;
+  width: 100%;
+  border: none;
+  background-color: var(--primary-lighten);
+  color: var(--white);
+  font-weight: 800;
+  padding: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 0;
+  text-align: center;
+  &:disabled {
+    cursor: not-allowed;
+  }
+  h2 {
+    font-size: 30px;
+  }
+`;
+
 function Locker() {
   const { lockerMadeTime } = useParams();
 
@@ -87,12 +109,36 @@ function Locker() {
     });
   };
 
+  const handleClickTakeScreenShot = (event: any) => {
+    const rect = document.body.getBoundingClientRect();
+
+    html2canvas(event?.target.parentElement).then(canvas => {
+      let croppedCanvas = document.createElement("canvas");
+      let croppedCanvasContext = croppedCanvas.getContext("2d");
+
+      croppedCanvas.width = rect.width;
+      croppedCanvas.height = rect.height;
+
+      croppedCanvasContext?.drawImage(canvas, 0, 0);
+
+      const a = document.createElement("a");
+      a.href = croppedCanvas.toDataURL();
+      a.download = "사물함배정결과.png";
+      a.click();
+    });
+  };
+
   return (
     <Container>
       <Header>
         <h1>🗄 우아한테크코스 4기 잠실캠 사물함 배정결과 🗄</h1>
         <h1>배정일시: {lockerMadeDate}</h1>
       </Header>
+
+      <CaptureButton onClick={handleClickTakeScreenShot}>
+        배정결과 다운로드
+      </CaptureButton>
+
       <CrewLockerList>
         {lockerObject?.lockerList.map((name: string, index: number) => (
           <CrewLocker key={"li-" + index}>

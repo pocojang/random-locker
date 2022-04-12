@@ -32,9 +32,6 @@ footer, header, hgroup, main, menu, nav, section {
 *[hidden] {
     display: none;
 }
-body {
-  line-height: 1;
-}
 menu, ol, ul {
   list-style: none;
 }
@@ -54,6 +51,7 @@ table {
   box-sizing: border-box;
 }
 body {
+  line-height: 1;
   background-color: var(--bgColor);
   color: var(--bgColor);
   margin: 0;
@@ -62,6 +60,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+}
+#root {
+  height: 100vh;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
