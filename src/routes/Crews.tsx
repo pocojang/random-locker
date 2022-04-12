@@ -7,46 +7,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { dbService } from "../fbase";
 import { getDate } from "../utils";
-
-const CREW_NAME_LIST = [
-  "소피아",
-  "콤피",
-  "위니",
-  "티거",
-  "후이",
-  "꼬재",
-  "온스타",
-  "밧드",
-  "태태",
-  "빅터",
-  "민초",
-  "무비",
-  "아놀드",
-  "해리",
-  "안",
-  "우연",
-  "준찌",
-  "샐리",
-  "동키콩",
-  "블링",
-  "록바",
-  "병민",
-  "나인",
-  "유세지",
-  "코카콜라",
-  "앨버",
-  "비녀",
-  "도리",
-  "우디",
-  "자스민",
-  "호프",
-  "코이",
-  "결",
-  "하리",
-  "시지프",
-  "돔하디",
-  "마르코",
-];
+import { CREW_NAME_LIST } from "../constants";
 
 const Container = styled.div`
   margin: 0 auto;
@@ -176,11 +137,42 @@ const EmptyText = styled.div`
   margin: 0 30px;
 `;
 
-const MemberForm = styled.form``;
+const MemberForm = styled.form`
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+`;
 
-const MemberInput = styled.input``;
+const MemberInput = styled.input`
+  padding: 0 8px;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  border-radius: 4px 0 0 4px;
+  height: 36px;
+  line-height: 36px;
+  font-weight: 400;
+  font-size: 16px;
+  width: 80%;
+  height: 60px;
+  margin: 30px 0 20px 0;
+  padding: 10px;
+`;
 
-const MemberSubmitButton = styled.button``;
+const MemberSubmitButton = styled.input`
+  cursor: pointer;
+  border: 1px solid #00bcd4;
+  background: #00bcd4;
+  border-radius: 0 4px 4px 0;
+  height: 36px;
+  border-style: none;
+  color: #fff;
+  font-weight: bold;
+  height: 60px;
+  width: 10%;
+  font-size: 20px;
+  margin: 30px 0 20px 0;
+`;
 
 interface Locker {
   id: string;
@@ -194,6 +186,8 @@ function Crews() {
   const [isRunConfetti, setIsRunConfetti] = useState(false);
   const [crewNameList, setCrewNameList] = useState(CREW_NAME_LIST);
   const [lockerList, setLockerList] = useState<Locker[]>([]);
+  const [members, setMembers] = useState("");
+  const [memberList, setMemberList] = useState<string[]>([]);
 
   useEffect(() => {
     dbService.collection("lockerList").onSnapshot(snapshot => {
@@ -219,7 +213,20 @@ function Crews() {
     setIsRunConfetti(true);
   };
 
-  const onMemberSubmit = () => {};
+  const onMemberSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const memberList = members.split(",").map(name => name.trim());
+    setCrewNameList(memberList);
+    console.log(crewNameList);
+  };
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event;
+    setMembers(value);
+  };
 
   return (
     <Container>
@@ -227,15 +234,22 @@ function Crews() {
         <h1>🗄 우아한테크코스 4기 잠실캠 사물함 🗄</h1>
       </Header>
 
-      <MemberForm>
+      <MemberForm onSubmit={onMemberSubmit}>
         <MemberInput
           type='text'
+          value={members}
+          onChange={onChange}
           placeholder='전체 인원의 닉네임을 콤마로 구분해서 입력해주세요.'
         />
-        <MemberSubmitButton onClick={onMemberSubmit} type='submit'>
-          확인
-        </MemberSubmitButton>
+        <MemberSubmitButton type='submit' value='확인' />
       </MemberForm>
+
+      <div>
+        [사물함 배정 대상]:
+        {crewNameList.map((member, index) => (
+          <span key={index}>{member}, </span>
+        ))}
+      </div>
 
       <StartButton onClick={onShuffle} disabled={isRunConfetti}>
         <h2>

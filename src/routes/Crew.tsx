@@ -24,33 +24,41 @@ const CrewName = styled.h1`
   font-weight: 800;
 `;
 
-const MessageForm = styled.form``;
+const MessageForm = styled.form`
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+`;
 
 const MessageInput = styled.input`
-  border: 1px solid #b4b4b4;
+  padding: 0 8px;
+  border: 1px solid #fff;
   box-sizing: border-box;
-  border-radius: 4px;
-  flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0;
-  margin: 25px 0px;
-  padding: 8px;
-  width: 260px;
+  border-radius: 4px 0 0 4px;
+  height: 36px;
+  line-height: 36px;
+  font-weight: 400;
+  font-size: 16px;
+  width: 70%;
+  height: 50px;
+  margin: 30px 0 20px 0;
+  padding: 10px;
 `;
 
 const MessageButton = styled.input`
   cursor: pointer;
+  border: 1px solid #00bcd4;
   background: #00bcd4;
-  border-radius: 4px;
-  border: none;
-  color: #fff;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
+  border-radius: 0 4px 4px 0;
   height: 36px;
-  margin: 4px 4px;
+  border-style: none;
+  color: #fff;
+  font-size: 18px;
   font-weight: bold;
+  height: 50px;
+  margin: 30px 0 20px 0;
+  width: 20%;
 `;
 
 const ReceivedMessages = styled.div`
