@@ -2,7 +2,7 @@ import './App.css';
 
 import { shuffle } from 'lodash';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Confetti from 'react-confetti';
 import { If } from 'react-if';
 import { useWindowSize } from 'react-use';
@@ -48,14 +48,6 @@ function App() {
 		setIsRunConfetti(true);
 	};
 
-	const computedButtonText = useMemo(() => {
-		if (isRunConfetti) {
-			return '🎊 Congratulation 🎉';
-		}
-
-		return '👉 Click Me 👈';
-	}, [isRunConfetti]);
-
 	return (
 		<div className="App">
 			<header>
@@ -63,7 +55,7 @@ function App() {
 			</header>
 
 			<button onClick={onShuffle} disabled={isRunConfetti}>
-				<h2>{computedButtonText}</h2>
+				<h2>{isRunConfetti ? '🎊 Congratulation 🎉' : '👉 Click Me 👈'}</h2>
 			</button>
 
 			<If condition={isRunConfetti}>
