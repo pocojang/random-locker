@@ -2,7 +2,6 @@ import shuffle from "lodash.shuffle";
 
 import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
-import { If, Then } from "react-if";
 import useWindowSize from "react-use/lib/useWindowSize";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -79,9 +78,12 @@ const StartButton = styled.button`
   font-size: 20px;
   cursor: pointer;
   text-align: center;
-  margin-bottom: 2em;
   &:disabled {
     cursor: not-allowed;
+  }
+
+  h2 {
+    font-size: 30px;
   }
 `;
 
@@ -127,24 +129,27 @@ const CrewLocker = styled.li`
   }
 `;
 
+const Wrapper = styled.div`
+  box-sizing: border-box;
+  padding: 30px;
+`;
+
 const SavedLockerList = styled.ol`
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(8, minmax(100px, auto));
   list-style: none;
   margin-bottom: 30px;
   gap: 10px;
-  max-width: 10em;
-  padding: 0;
   @media all and (max-width: 800px) {
     grid-gap: 0.25em;
   }
 `;
 
 const SavedLockers = styled.li`
-  margin: 10px 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   list-style: none;
   margin-left: 0;
   height: 60px;
@@ -164,6 +169,12 @@ const SavedLockers = styled.li`
 `;
 
 const DateListMade = styled.div``;
+
+const EmptyText = styled.div`
+  font-size: 50px;
+  font-weight: 700;
+  margin: 0 30px;
+`;
 
 interface Locker {
   id: string;
@@ -209,34 +220,46 @@ function Crews() {
       </Header>
 
       <StartButton onClick={onShuffle} disabled={isRunConfetti}>
-        <h2>{isRunConfetti ? "🎊 Congratulation 🎉" : "👉 Click Me 👈"}</h2>
+        <h2>
+          {isRunConfetti ? "🎊 Congratulation 🎉" : "👉 사물함 배정하기 👈"}
+        </h2>
       </StartButton>
 
-      <SavedLockerList>
-        {lockerList
-          .sort((a, b) => Number(b.createdAt) - Number(a.createdAt))
-          .map(locker => (
-            <SavedLockers key={locker.id}>
-              <DateListMade>
-                <Link to={`/random-locker/saved-list/${locker.createdAt}`}>
-                  {getDate(Number(locker.createdAt))}
+      <Wrapper>
+        <SavedLockerList>
+          {lockerList
+            .sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
+            .map(locker => (
+              <SavedLockers key={locker.id}>
+                <DateListMade>
+                  <Link to={`/random-locker/saved-list/${locker.createdAt}`}>
+                    {getDate(Number(locker.createdAt))}
+                  </Link>
+                </DateListMade>
+              </SavedLockers>
+            ))}
+        </SavedLockerList>
+      </Wrapper>
+      <>
+        {isRunConfetti ? (
+          <CrewLockerList>
+            {crewNameList.map((name, index) => (
+              <CrewLocker key={"li-" + index}>
+                <Link to={`/random-locker/${name}`}>
+                  {index + 1}.
+                  <br />
+                  {name}
                 </Link>
-              </DateListMade>
-            </SavedLockers>
-          ))}
-      </SavedLockerList>
-
-      <CrewLockerList>
-        {crewNameList.map((name, index) => (
-          <CrewLocker key={"li-" + index}>
-            <Link to={`/random-locker/${name}`}>
-              {index + 1}.
-              <br />
-              {name}
-            </Link>
-          </CrewLocker>
-        ))}
-      </CrewLockerList>
+              </CrewLocker>
+            ))}
+          </CrewLockerList>
+        ) : (
+          <EmptyText>
+            텅~비었네요. 사물함을 배정하시거나 기존에 배정된 사물함 결과를
+            확인하세요.
+          </EmptyText>
+        )}
+      </>
 
       <Confetti run={isRunConfetti} width={width} height={height} />
     </Container>

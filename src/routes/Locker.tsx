@@ -12,8 +12,6 @@ function Locker() {
   const [lockerObject, setLockerObject] = useState<any>();
 
   useEffect(() => {
-    // You need to restrict it at some point
-    // This is just dummy code and should be replaced by actual
     if (!lockerObject) {
       getLockerObject(lockerMadeTime!);
     }

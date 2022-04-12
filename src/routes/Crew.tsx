@@ -88,6 +88,7 @@ function Crew() {
       .collection("crews")
       .doc(crewName)
       .collection("messages")
+      .orderBy("createdAt", "desc")
       .onSnapshot(snapshot => {
         const messageArray = snapshot.docs.map(doc => ({
           id: doc.id,
@@ -132,16 +133,14 @@ function Crew() {
         <MessageButton type='submit' value='남기기' />
       </MessageForm>
       <ReceivedMessages>
-        {messages
-          .sort((a, b) => Number(b.createdAt) - Number(a.createdAt))
-          .map(message => {
-            return (
-              <MessagesWrapper key={"li-" + message.id}>
-                <MessageDate>{getDate(Number(message.createdAt))}</MessageDate>
-                <MessageText>{message.text}</MessageText>
-              </MessagesWrapper>
-            );
-          })}
+        {messages.map(message => {
+          return (
+            <MessagesWrapper key={"li-" + message.id}>
+              <MessageDate>{getDate(Number(message.createdAt))}</MessageDate>
+              <MessageText>{message.text}</MessageText>
+            </MessagesWrapper>
+          );
+        })}
       </ReceivedMessages>
     </Container>
   );
