@@ -304,7 +304,9 @@ function Crews() {
 
       <StartButton onClick={onShuffle} disabled={isRunConfetti}>
         <h2>
-          {isRunConfetti ? "🎊 사물함 배정완료 🎉" : "👉 사물함 배정하기 👈"}
+          {isRunConfetti
+            ? `🎊 ${lockerName} 사물함 배정완료 🎉`
+            : "👉 사물함 배정하기 👈"}
         </h2>
       </StartButton>
 
