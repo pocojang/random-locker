@@ -7,7 +7,6 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path='/random-locker/:crewName' element={<Crew />}></Route>
-
         <Route path='/random-locker/' element={<Crews />}></Route>
       </Routes>
     </BrowserRouter>
