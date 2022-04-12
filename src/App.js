@@ -1,11 +1,14 @@
 import { useState } from "react";
 import "./App.css";
 import shuffle from "lodash.shuffle";
+import useWindowSize from "react-use/lib/useWindowSize";
+import Confetti from "react-confetti";
 import crewNameList from "./mockData";
 
 function App() {
   const [crewList, setCrewList] = useState(crewNameList);
   const [isClicked, setIsClicked] = useState(false);
+  const { width, height } = useWindowSize();
 
   const handleRandomLocker = () => {
     const shuffled = shuffle(crewList);
@@ -23,15 +26,18 @@ function App() {
         </button>
       </header>
       {isClicked && (
-        <main>
-          {crewList.map((name, index) => (
-            <li className="item" key={index}>
-              <p>{index + 1}</p>
-              <p>{name}</p>
-              <span>🟠</span>
-            </li>
-          ))}
-        </main>
+        <>
+          <main>
+            {crewList.map((name, index) => (
+              <li className="item" key={index}>
+                <p>{index + 1}</p>
+                <p>{name}</p>
+                <span>🟠</span>
+              </li>
+            ))}
+          </main>
+          <Confetti width={width} height={height} />
+        </>
       )}
     </div>
   );
