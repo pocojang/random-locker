@@ -123,7 +123,7 @@ function Locker() {
 
       const a = document.createElement("a");
       a.href = croppedCanvas.toDataURL();
-      a.download = "사물함배정결과.png";
+      a.download = `${lockerObject.lockerName} 사물함 배정결과.png`;
       a.click();
     });
   };
