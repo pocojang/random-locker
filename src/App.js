@@ -3,10 +3,10 @@ import "./App.css";
 import shuffle from "lodash.shuffle";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
-import crewNameList from "./mockData";
+import CREW_NAME_LIST from "./mockData";
 
 function App() {
-  const [crewList, setCrewList] = useState(crewNameList);
+  const [crewList, setCrewList] = useState(CREW_NAME_LIST);
   const [isClicked, setIsClicked] = useState(false);
   const { width, height } = useWindowSize();
 

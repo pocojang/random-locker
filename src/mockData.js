@@ -1,4 +1,4 @@
-const crewNameList = [
+const CREW_NAME_LIST = [
   "소피아",
   "콤피",
   "민초",
@@ -38,4 +38,4 @@ const crewNameList = [
   "록바",
 ];
 
-export default crewNameList;
+export default CREW_NAME_LIST;
