@@ -12,14 +12,15 @@ const Container = styled.div`
 const Header = styled.div`
   display: block;
   font-size: calc(16px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
-  background: black;
+  background: var(--primary-darken);
+  width: 100%;
   color: white;
   text-align: center;
-  margin: 40px;
+  padding: 20px;
   h1 {
     font-size: 30px;
     font-weight: 800;
-    margin: 20px;
+    padding: 10px;
   }
 `;
 
@@ -30,7 +31,7 @@ const CrewLockerList = styled.ol`
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-gap: 1em;
-  margin: 0 auto;
+  margin: 30px auto;
   max-width: 64em;
   padding: 0;
   @media all and (max-width: 800px) {
@@ -39,10 +40,10 @@ const CrewLockerList = styled.ol`
 `;
 
 const CrewLocker = styled.li`
-  background-color: grey;
-  color: #fff;
+  background-color: var(--secondary-darken);
+  color: var(--white);
   font-weight: 800;
-  border: 1px solid #eaeaea;
+  border-radius: 4px;
   height: 12vw;
   max-height: 100px;
   display: flex;

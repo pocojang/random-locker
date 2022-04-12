@@ -17,11 +17,13 @@ const Container = styled.div`
   justify-content: center;
   text-align: center;
   padding: 40px;
+  height: 100vh;
 `;
 
 const CrewName = styled.h1`
   font-size: 40px;
   font-weight: 800;
+  color: var(--primary);
 `;
 
 const MessageForm = styled.form`
@@ -33,7 +35,7 @@ const MessageForm = styled.form`
 
 const MessageInput = styled.input`
   padding: 0 8px;
-  border: 1px solid #fff;
+  border: 1px solid;
   box-sizing: border-box;
   border-radius: 4px 0 0 4px;
   height: 36px;
@@ -48,12 +50,12 @@ const MessageInput = styled.input`
 
 const MessageButton = styled.input`
   cursor: pointer;
-  border: 1px solid #00bcd4;
-  background: #00bcd4;
+  border: 1px solid var(--primary);
+  background-color: var(--primary);
   border-radius: 0 4px 4px 0;
   height: 36px;
   border-style: none;
-  color: #fff;
+  color: var(--white);
   font-size: 18px;
   font-weight: bold;
   height: 50px;
@@ -63,7 +65,8 @@ const MessageButton = styled.input`
 
 const ReceivedMessages = styled.div`
   margin: 0 auto;
-  border: 1px solid ${props => props.theme.textColor};
+  border: 1px solid;
+  background-color: var(--primary-lighten);
   border-radius: 10px;
   padding: 15px;
 `;
@@ -75,15 +78,17 @@ const MessagesWrapper = styled.div`
   grid-row-gap: 20px;
   grid-column-gap: 20px;
   margin: 10px;
+  font-size: 18px;
+  font-weight: 600;
 `;
 
 const MessageDate = styled.span`
-  color: grey;
+  color: var(--secondary-lighten);
 `;
 
 const MessageText = styled.span`
   margin-right: auto;
-  color: ${props => props.theme.accentColor};
+  color: var(--white);
 `;
 
 function Crew() {

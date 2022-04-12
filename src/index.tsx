@@ -2,6 +2,7 @@ import { ThemeProvider } from "styled-components";
 import { theme } from "./theme";
 import App from "./App";
 import { createRoot } from "react-dom/client";
+import "./variables.css";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Failed to find the root element");

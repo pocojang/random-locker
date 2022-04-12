@@ -18,8 +18,7 @@ const Header = styled.div`
   align-items: center;
   font-size: calc(16px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
   justify-content: center;
-  background: black;
-  color: white;
+  background: var(--primary-darken);
   min-height: 10vh;
   text-align: center;
   h1 {
@@ -32,17 +31,17 @@ const StartButton = styled.button`
   display: block;
   width: 100%;
   border: none;
-  background-color: ${props => props.theme.accentColor};
-  color: #fff;
+  background-color: var(--primary);
+  color: var(--white);
   font-weight: 800;
   padding: 8px;
   font-size: 20px;
   cursor: pointer;
+  margin: 0;
   text-align: center;
   &:disabled {
     cursor: not-allowed;
   }
-
   h2 {
     font-size: 30px;
   }
@@ -50,24 +49,22 @@ const StartButton = styled.button`
 
 const CrewLockerList = styled.ol`
   border: none;
-  height: 12vw;
-  max-height: 100px;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-gap: 1em;
   margin: 0 auto;
   max-width: 64em;
-  padding: 0;
+  padding: 10px 0;
   @media all and (max-width: 800px) {
     grid-gap: 0.25em;
   }
 `;
 
 const CrewLocker = styled.li`
-  background-color: grey;
-  color: #fff;
+  background-color: var(--secondary-darken);
+  color: var(--white);
   font-weight: 800;
-  border: 1px solid #eaeaea;
+  border-radius: 4px;
   height: 12vw;
   max-height: 100px;
   display: flex;
@@ -115,9 +112,8 @@ const SavedLockers = styled.li`
   margin-left: 0;
   height: 60px;
   border-radius: 5px;
-  background-color: ${props => props.theme.accentColor};
+  background-color: var(--secondary);
   font-weight: 800;
-
   @media all and (max-width: 750px) {
     font-size: 16px;
   }
@@ -131,12 +127,6 @@ const SavedLockers = styled.li`
 
 const DateListMade = styled.div``;
 
-const EmptyText = styled.div`
-  font-size: 50px;
-  font-weight: 700;
-  margin: 0 30px;
-`;
-
 const MemberForm = styled.form`
   display: flex;
   flex-flow: row wrap;
@@ -146,7 +136,8 @@ const MemberForm = styled.form`
 
 const MemberInput = styled.input`
   padding: 0 8px;
-  border: 1px solid #fff;
+  border: 1px solid var(--secondary);
+  background-color: var(--white);
   box-sizing: border-box;
   border-radius: 4px 0 0 4px;
   height: 36px;
@@ -161,17 +152,38 @@ const MemberInput = styled.input`
 
 const MemberSubmitButton = styled.input`
   cursor: pointer;
-  border: 1px solid #00bcd4;
-  background: #00bcd4;
+  border: 1px solid var(--primary);
+  background: var(--primary);
   border-radius: 0 4px 4px 0;
   height: 36px;
   border-style: none;
-  color: #fff;
+  color: var(--white);
   font-weight: bold;
   height: 60px;
   width: 10%;
   font-size: 20px;
   margin: 30px 0 20px 0;
+`;
+
+const TargetMemberWrapper = styled.div`
+  margin: 0 80px 20px 80px;
+  font-size: 20px;
+  line-height: 2;
+`;
+
+const TargetTitle = styled.span`
+  border-radius: 4px;
+  background: var(--secondary-darken);
+  margin: 3px;
+  padding: 3px;
+  font-weight: 800;
+`;
+
+const TargetMembers = styled.span`
+  border-radius: 4px;
+  background: var(--primary);
+  margin: 3px;
+  padding: 3px;
 `;
 
 interface Locker {
@@ -187,7 +199,6 @@ function Crews() {
   const [crewNameList, setCrewNameList] = useState(CREW_NAME_LIST);
   const [lockerList, setLockerList] = useState<Locker[]>([]);
   const [members, setMembers] = useState("");
-  const [memberList, setMemberList] = useState<string[]>([]);
 
   useEffect(() => {
     dbService.collection("lockerList").onSnapshot(snapshot => {
@@ -244,12 +255,14 @@ function Crews() {
         <MemberSubmitButton type='submit' value='확인' />
       </MemberForm>
 
-      <div>
-        [사물함 배정 대상]:
+      <TargetMemberWrapper>
+        <TargetTitle>사물함 배정 대상</TargetTitle>
         {crewNameList.map((member, index) => (
-          <span key={index}>{member}, </span>
+          <Link to={`/random-locker/${member}`}>
+            <TargetMembers key={index}>{member}</TargetMembers>
+          </Link>
         ))}
-      </div>
+      </TargetMemberWrapper>
 
       <StartButton onClick={onShuffle} disabled={isRunConfetti}>
         <h2>
@@ -274,7 +287,7 @@ function Crews() {
       </Wrapper>
 
       <>
-        {isRunConfetti ? (
+        {isRunConfetti && (
           <CrewLockerList>
             {crewNameList.map((name, index) => (
               <CrewLocker key={"li-" + index}>
@@ -286,11 +299,6 @@ function Crews() {
               </CrewLocker>
             ))}
           </CrewLockerList>
-        ) : (
-          <EmptyText>
-            텅~비었네요. 사물함을 배정하시거나 기존에 배정된 사물함 결과를
-            확인하세요.
-          </EmptyText>
         )}
       </>
 
