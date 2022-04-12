@@ -52,7 +52,7 @@ const CrewLockerList = styled.ol`
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-gap: 1em;
-  margin: 0 auto;
+  margin: 20px auto;
   max-width: 64em;
   padding: 10px 0;
   @media all and (max-width: 800px) {
@@ -112,7 +112,7 @@ const SavedLockers = styled.li`
   margin-left: 0;
   height: 60px;
   border-radius: 5px;
-  background-color: var(--secondary);
+  background-color: var(--primary);
   font-weight: 800;
   @media all and (max-width: 750px) {
     font-size: 16px;
@@ -134,7 +134,7 @@ const MemberForm = styled.form`
   justify-content: center;
 `;
 
-const MemberInput = styled.input`
+const LockerNameInput = styled.input`
   padding: 0 8px;
   border: 1px solid var(--secondary);
   background-color: var(--white);
@@ -142,9 +142,26 @@ const MemberInput = styled.input`
   border-radius: 4px 0 0 4px;
   height: 36px;
   line-height: 36px;
+  font-weight: 800;
+  font-size: 16px;
+  width: 13%;
+  height: 60px;
+  margin: 30px 0 20px 0;
+  padding: 10px;
+  text-align: center;
+`;
+
+const MemberInput = styled.input`
+  padding: 0 8px;
+  border: 1px solid var(--secondary);
+  background-color: var(--white);
+  box-sizing: border-box;
+  border-radius: 0;
+  height: 36px;
+  line-height: 36px;
   font-weight: 400;
   font-size: 16px;
-  width: 80%;
+  width: 67%;
   height: 60px;
   margin: 30px 0 20px 0;
   padding: 10px;
@@ -173,7 +190,7 @@ const TargetMemberWrapper = styled.div`
 
 const TargetTitle = styled.span`
   border-radius: 4px;
-  background: var(--secondary-darken);
+  background-color: var(--secondary-darken);
   margin: 3px;
   padding: 3px;
   font-weight: 800;
@@ -181,7 +198,7 @@ const TargetTitle = styled.span`
 
 const TargetMembers = styled.span`
   border-radius: 4px;
-  background: var(--primary);
+  background-color: var(--primary-lighten);
   margin: 3px;
   padding: 3px;
 `;
@@ -190,6 +207,7 @@ interface Locker {
   id: string;
   createdAt: string;
   lockerList: string[];
+  lockerName: string;
 }
 
 function Crews() {
@@ -199,6 +217,8 @@ function Crews() {
   const [crewNameList, setCrewNameList] = useState(CREW_NAME_LIST);
   const [lockerList, setLockerList] = useState<Locker[]>([]);
   const [members, setMembers] = useState("");
+  const [lockerName, setLockerName] = useState("프론트엔드 4기");
+  const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
     dbService.collection("lockerList").onSnapshot(snapshot => {
@@ -206,17 +226,23 @@ function Crews() {
         id: doc.id,
         createdAt: doc.data().createdAt,
         lockerList: doc.data().lockerList,
+        lockerName: doc.data().lockerName,
       }));
       setLockerList(lockerArray);
     });
   }, [lockerList]);
 
   const onShuffle = () => {
+    if (!submit) {
+      alert("사물함 배정 인원 확인 버튼을 먼저 눌러주세요.");
+      return;
+    }
     setCrewNameList(prevState => {
       const lockerList = shuffle(prevState);
       dbService.collection("lockerList").add({
         lockerList,
         createdAt: Date.now(),
+        lockerName,
       });
 
       return lockerList;
@@ -226,39 +252,51 @@ function Crews() {
 
   const onMemberSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const memberList = members.split(",").map(name => name.trim());
-    setCrewNameList(memberList);
-    console.log(crewNameList);
+    setSubmit(true);
   };
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onMembersChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value },
     } = event;
     setMembers(value);
+    const memberList = members.split(",").map(name => name.trim());
+    setCrewNameList(memberList);
+  };
+
+  const onLockerNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event;
+    setLockerName(value);
   };
 
   return (
     <Container>
       <Header>
-        <h1>🗄 우아한테크코스 4기 잠실캠 사물함 🗄</h1>
+        <h1>🗄 우아한테크코스 사물함 🗄</h1>
       </Header>
 
       <MemberForm onSubmit={onMemberSubmit}>
+        <LockerNameInput
+          type='text'
+          value={lockerName}
+          onChange={onLockerNameChange}
+          placeholder='사물함 배정 제목을 입력해주세요.'
+        />
         <MemberInput
           type='text'
           value={members}
-          onChange={onChange}
-          placeholder='전체 인원의 닉네임을 콤마로 구분해서 입력해주세요.'
+          onChange={onMembersChange}
+          placeholder='사물함 배정 대상 인원들의 닉네임을 콤마로 구분하여 입력해주세요.'
         />
         <MemberSubmitButton type='submit' value='확인' />
       </MemberForm>
 
       <TargetMemberWrapper>
-        <TargetTitle>사물함 배정 대상</TargetTitle>
+        <TargetTitle>{lockerName}</TargetTitle>
         {crewNameList.map((member, index) => (
-          <Link to={`/random-locker/${member}`}>
+          <Link key={index} to={`/random-locker/${member}`}>
             <TargetMembers key={index}>{member}</TargetMembers>
           </Link>
         ))}
@@ -266,25 +304,9 @@ function Crews() {
 
       <StartButton onClick={onShuffle} disabled={isRunConfetti}>
         <h2>
-          {isRunConfetti ? "🎊 Congratulation 🎉" : "👉 사물함 배정하기 👈"}
+          {isRunConfetti ? "🎊 사물함 배정완료 🎉" : "👉 사물함 배정하기 👈"}
         </h2>
       </StartButton>
-
-      <Wrapper>
-        <SavedLockerList>
-          {lockerList
-            .sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
-            .map(locker => (
-              <SavedLockers key={locker.id}>
-                <DateListMade>
-                  <Link to={`/random-locker/saved-list/${locker.createdAt}`}>
-                    {getDate(Number(locker.createdAt))}
-                  </Link>
-                </DateListMade>
-              </SavedLockers>
-            ))}
-        </SavedLockerList>
-      </Wrapper>
 
       <>
         {isRunConfetti && (
@@ -301,6 +323,23 @@ function Crews() {
           </CrewLockerList>
         )}
       </>
+
+      <Wrapper>
+        <SavedLockerList>
+          {lockerList
+            .sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
+            .map(locker => (
+              <SavedLockers key={locker.id}>
+                <DateListMade>
+                  <Link to={`/random-locker/saved-list/${locker.createdAt}`}>
+                    {locker.lockerName}
+                    {getDate(Number(locker.createdAt))}
+                  </Link>
+                </DateListMade>
+              </SavedLockers>
+            ))}
+        </SavedLockerList>
+      </Wrapper>
 
       <Confetti run={isRunConfetti} width={width} height={height} />
     </Container>

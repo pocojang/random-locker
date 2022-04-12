@@ -84,11 +84,14 @@ const MessagesWrapper = styled.div`
 
 const MessageDate = styled.span`
   color: var(--secondary-lighten);
+  width: 160px;
 `;
 
 const MessageText = styled.span`
   margin-right: auto;
   color: var(--white);
+  line-height: 1.5;
+  text-align: start;
 `;
 
 function Crew() {

@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { getDate } from "../utils";
-import react, { useState, useEffect, Component } from "react";
+import { useState, useEffect } from "react";
 import { dbService } from "../fbase";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -131,7 +131,7 @@ function Locker() {
   return (
     <Container>
       <Header>
-        <h1>🗄 우아한테크코스 4기 잠실캠 사물함 배정결과 🗄</h1>
+        <h1>🗄 우아한테크코스 '{lockerObject?.lockerName}' 사물함 배정결과 🗄</h1>
         <h1>배정일시: {lockerMadeDate}</h1>
       </Header>
 
