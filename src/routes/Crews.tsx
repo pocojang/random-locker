@@ -5,6 +5,7 @@ import Confetti from "react-confetti";
 import { If } from "react-if";
 import useWindowSize from "react-use/lib/useWindowSize";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const CREW_NAME_LIST = [
   "소피아",
@@ -147,11 +148,13 @@ function Crews() {
         <>
           <CrewLockerList>
             {crewNameList.map((name, index) => (
-              <CrewLocker key={"li-" + index}>
-                {index + 1}.
-                <br />
-                {name}
-              </CrewLocker>
+              <Link to={`/random-locker/${name}`}>
+                <CrewLocker key={"li-" + index}>
+                  {index + 1}.
+                  <br />
+                  {name}
+                </CrewLocker>
+              </Link>
             ))}
           </CrewLockerList>
 

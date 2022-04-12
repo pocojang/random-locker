@@ -6,7 +6,7 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/random-locker/:crewName'></Route>
+        <Route path='/random-locker/:crewName' element={<Crew />}></Route>
 
         <Route path='/random-locker/' element={<Crews />}></Route>
       </Routes>
