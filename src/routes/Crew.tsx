@@ -12,24 +12,22 @@ function Crew() {
   const { crewName } = useParams();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
-  const getMessages = async () => {
-    const dbMessages = await dbService
+
+  useEffect(() => {
+    dbService
       .collection("crews")
       .doc(crewName)
       .collection("messages")
-      .get();
-    dbMessages.forEach((document: any) => {
-      const messageObject = {
-        ...document.data(),
-        id: document.id,
-      };
-      setMessages(prev => [messageObject, ...prev]);
-    });
-  };
-
-  useEffect(() => {
-    getMessages();
-  }, []);
+      .onSnapshot(snapshot => {
+        // const messageArray = [{ id: "dd", createdAt: "dd", text: "dd" }]
+        const messageArray = snapshot.docs.map(doc => ({
+          id: doc.id,
+          createdAt: doc.data().createdAt,
+          text: doc.data().text,
+        }));
+        setMessages(messageArray);
+      });
+  }, [messages]);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
