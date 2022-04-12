@@ -1,11 +1,11 @@
 import './App.css';
 
-import { shuffle } from 'lodash';
+import shuffle from 'lodash.shuffle';
 
 import React, { useState } from 'react';
 import Confetti from 'react-confetti';
 import { If } from 'react-if';
-import { useWindowSize } from 'react-use';
+import useWindowSize from 'react-use/lib/useWindowSize';
 
 const CREW_NAME_LIST = [
 	'서니',
