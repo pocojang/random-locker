@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import _ from "lodash";
+import shuffle from "lodash.shuffle";
 import crewNameList from "./mockData";
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleRandomLocker = () => {
-    const shuffled = _.shuffle(crewList);
+    const shuffled = shuffle(crewList);
 
     setIsClicked(true);
     setCrewList(shuffled);
