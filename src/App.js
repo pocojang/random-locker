@@ -11,10 +11,10 @@ function App() {
   const { width, height } = useWindowSize();
 
   const handleRandomLocker = () => {
-    const shuffled = shuffle(crewList);
+    const shuffledCrewList = shuffle(crewList);
 
     setIsClicked(true);
-    setCrewList(shuffled);
+    setCrewList(shuffledCrewList);
   };
 
   return (
