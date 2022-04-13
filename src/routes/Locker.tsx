@@ -60,7 +60,9 @@ const CrewLocker = styled.li`
   font-size: 20px;
   text-align: center;
   line-height: 1.7;
-
+  &:hover {
+    background-color: var(--primary);
+  }
   @media all and (max-width: 750px) {
     font-size: 16px;
   }
@@ -84,6 +86,9 @@ const CaptureButton = styled.button`
   cursor: pointer;
   margin: 0;
   text-align: center;
+  &:hover {
+    background-color: var(--primary);
+  }
   &:disabled {
     cursor: not-allowed;
   }

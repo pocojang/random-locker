@@ -63,12 +63,15 @@ const MessageButton = styled.input`
   height: 50px;
   margin: 30px 0 20px 0;
   width: 20%;
+  &:hover {
+    background-color: var(--primary-darken);
+  }
 `;
 
 const ReceivedMessages = styled.div`
   margin: 0 auto;
   border: 1px solid;
-  background-color: var(--primary-lighten);
+  background-color: var(--secondary-darken);
   border-radius: 10px;
 `;
 
@@ -87,7 +90,7 @@ const MessagesWrapper = styled.div`
 `;
 
 const MessageDate = styled.span`
-  color: var(--secondary-lighten);
+  color: var(--white);
   @media all and (max-width: 600px) {
     width: 20%;
     margin-left: 10px;

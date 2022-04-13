@@ -48,6 +48,9 @@ const StartButton = styled.button`
   &:disabled {
     cursor: not-allowed;
   }
+  &:hover {
+    background-color: var(--primary-darken);
+  }
   h2 {
     font-size: 30px;
     @media all and (max-width: 800px) {
@@ -87,7 +90,6 @@ const CrewLocker = styled.li`
   font-size: 20px;
   text-align: center;
   line-height: 1.7;
-
   @media all and (max-width: 750px) {
     font-size: 16px;
   }
@@ -124,6 +126,9 @@ const SavedLockers = styled.li`
   font-weight: 800;
   padding: 10px;
   width: 150px;
+  &:hover {
+    background-color: var(--primary-darken);
+  }
   @media all and (max-width: 800px) {
     font-size: 16px;
   }
@@ -190,6 +195,9 @@ const MemberSubmitButton = styled.input`
   width: 100px;
   font-size: 20px;
   margin: 30px 0 20px 0;
+  &:hover {
+    background-color: var(--primary-darken);
+  }
   @media all and (max-width: 600px) {
     font-size: 13px;
     height: 40px;
@@ -206,7 +214,7 @@ const TargetMemberWrapper = styled.div`
   justify-content: center;
   line-height: 2;
   border-radius: 4px;
-  background-color: var(--primary-lighten);
+  background-color: var(--secondary-lighten);
   margin: 3px;
   padding: 3px;
   @media all and (max-width: 800px) {
@@ -219,9 +227,13 @@ const TargetMemberWrapper = styled.div`
 
 const TargetMembers = styled.span`
   border-radius: 4px;
-  background-color: var(--primary-darken);
+  color: var(--white);
+  background-color: var(--primary);
   margin: 3px;
   padding: 3px;
+  &:hover {
+    background-color: var(--primary-darken);
+  }
 `;
 
 interface Locker {
