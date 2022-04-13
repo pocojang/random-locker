@@ -140,22 +140,20 @@ const MemberForm = styled.form`
 `;
 
 const LockerNameInput = styled.input`
-  padding: 0 8px;
-  border: 1px solid var(--secondary);
+  border: 0;
   background-color: var(--white);
   box-sizing: border-box;
-  border-radius: 4px 0 0 4px;
-  line-height: 36px;
-  font-weight: 800;
+  border-radius: 4px;
   font-size: 16px;
-  width: 13%;
-  height: 60px;
-  margin: 30px 0 20px 0;
-  padding: 10px;
+  width: 140px;
+  height: 34px;
+  padding: 3px;
   text-align: center;
+  margin: 3px;
   @media all and (max-width: 600px) {
     font-size: 13px;
-    height: 40px;
+    width: 120px;
+    height: 26px;
   }
 `;
 
@@ -164,12 +162,12 @@ const MemberInput = styled.input`
   border: 1px solid var(--secondary);
   background-color: var(--white);
   box-sizing: border-box;
-  border-radius: 0;
+  border-radius: 4px 0 0 4px;
   height: 36px;
   line-height: 36px;
   font-weight: 400;
   font-size: 16px;
-  width: 67%;
+  width: 80%;
   height: 60px;
   margin: 30px 0 20px 0;
   padding: 10px;
@@ -189,12 +187,13 @@ const MemberSubmitButton = styled.input`
   color: var(--white);
   font-weight: bold;
   height: 60px;
-  width: 10%;
+  width: 100px;
   font-size: 20px;
   margin: 30px 0 20px 0;
   @media all and (max-width: 600px) {
     font-size: 13px;
     height: 40px;
+    width: 60px;
   }
 `;
 
@@ -206,6 +205,10 @@ const TargetMemberWrapper = styled.div`
   align-items: center;
   justify-content: center;
   line-height: 2;
+  border-radius: 4px;
+  background-color: var(--primary-lighten);
+  margin: 3px;
+  padding: 3px;
   @media all and (max-width: 800px) {
     font-size: 16px;
   }
@@ -214,17 +217,9 @@ const TargetMemberWrapper = styled.div`
   }
 `;
 
-const TargetTitle = styled.span`
-  border-radius: 4px;
-  background-color: var(--secondary-darken);
-  margin: 3px;
-  padding: 3px;
-  font-weight: 800;
-`;
-
 const TargetMembers = styled.span`
   border-radius: 4px;
-  background-color: var(--primary-lighten);
+  background-color: var(--primary-darken);
   margin: 3px;
   padding: 3px;
 `;
@@ -307,12 +302,6 @@ function Crews() {
       </Header>
 
       <MemberForm onSubmit={onMemberSubmit}>
-        <LockerNameInput
-          type='text'
-          value={lockerName}
-          onChange={onLockerNameChange}
-          placeholder='사물함 배정 제목을 입력해주세요.'
-        />
         <MemberInput
           type='text'
           value={members}
@@ -323,7 +312,12 @@ function Crews() {
       </MemberForm>
 
       <TargetMemberWrapper>
-        <TargetTitle>{lockerName}</TargetTitle>
+        <LockerNameInput
+          type='text'
+          value={lockerName}
+          onChange={onLockerNameChange}
+          placeholder='사물함 배정 제목을 입력해주세요.'
+        />
         {staticCrewNameList.map((member, index) => (
           <Link key={index} to={`/random-locker/${member}`}>
             <TargetMembers key={index}>{member}</TargetMembers>
@@ -334,8 +328,8 @@ function Crews() {
       <StartButton onClick={onShuffle} disabled={isRunConfetti}>
         <h2>
           {isRunConfetti
-            ? `🎊 ${lockerName}사물함 배정완료 🎉`
-            : "👉 사물함 배정하기 👈"}
+            ? `🎊 [${lockerName}] 사물함 배정완료 🎉`
+            : `👉 [${lockerName}] 사물함 배정하기 👈`}
         </h2>
       </StartButton>
 
