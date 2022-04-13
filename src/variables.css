@@ -1,0 +1,11 @@
+:root {
+  --primary: #00bcd4;
+  --primary-lighten: #80deea;
+  --primary-darken: #009eb3;
+  --secondary: #b4b4b4;
+  --secondary-lighten: #dcdcdc;
+  --secondary-darken: #8b8b8b;
+  --white: #fff;
+  --black: #000;
+  --bgColor: #f5f5f5;
+}

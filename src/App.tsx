@@ -1,78 +1,87 @@
-import './App.css';
+import Router from "./Router";
+import { createGlobalStyle } from "styled-components";
 
-import shuffle from 'lodash.shuffle';
-
-import React, { useState } from 'react';
-import Confetti from 'react-confetti';
-import { If } from 'react-if';
-import useWindowSize from 'react-use/lib/useWindowSize';
-
-const CREW_NAME_LIST = [
-	'서니',
-	'브랜',
-	'파노',
-	'디토',
-	'미키',
-	'동동',
-	'티케',
-	'하루',
-	'인치',
-	'도비',
-	'카일',
-	'신세한탄',
-	'다윗',
-	'유조',
-	'썬',
-	'주모',
-	'피터',
-	'콜린',
-	'그루밍',
-	'브콜',
-	'크리스',
-	'심바',
-	'체프',
-	'엘라',
-	'곤이',
-	'지그',
-];
+const GlobalStyle = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, menu, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+main, menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, main, menu, nav, section {
+  display: block;
+}
+/* HTML5 hidden-attribute fix for newer browsers */
+*[hidden] {
+    display: none;
+}
+menu, ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  line-height: 1;
+  background-color: var(--bgColor);
+  color: var(--bgColor);
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+}
+#root {
+  height: 100vh;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+a {
+  text-decoration:none;
+  color:inherit;
+}
+`;
 
 function App() {
-	const { width, height } = useWindowSize();
-
-	const [isRunConfetti, setIsRunConfetti] = useState(false);
-	const [crewNameList, setCrewNameList] = useState(CREW_NAME_LIST);
-
-	const onShuffle = () => {
-		setCrewNameList((prevState) => shuffle(prevState));
-
-		setIsRunConfetti(true);
-	};
-
-	return (
-		<div className="App">
-			<header>
-				<h1>🗄 Woowacourse Locker 🗄</h1>
-			</header>
-
-			<button onClick={onShuffle} disabled={isRunConfetti}>
-				<h2>{isRunConfetti ? '🎊 Congratulation 🎉' : '👉 Click Me 👈'}</h2>
-			</button>
-
-			<If condition={isRunConfetti}>
-				<React.Fragment>
-					<ol>
-						{crewNameList.map((name, index) => (
-							<li key={'li-' + index}>
-								{index + 1}. {name}
-							</li>
-						))}
-					</ol>
-
-					<Confetti run={isRunConfetti} width={width} height={height} />
-				</React.Fragment>
-			</If>
-		</div>
-	);
+  return (
+    <>
+      <GlobalStyle />
+      <Router />
+    </>
+  );
 }
 
 export default App;
