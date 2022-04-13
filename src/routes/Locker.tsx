@@ -23,6 +23,9 @@ const Header = styled.div`
     font-size: 30px;
     font-weight: 800;
     padding: 10px;
+    @media all and (max-width: 600px) {
+      font-size: 22px;
+    }
   }
 `;
 
@@ -38,6 +41,7 @@ const CrewLockerList = styled.ol`
   padding: 0;
   @media all and (max-width: 800px) {
     grid-gap: 0.25em;
+    font-size: 16px;
   }
 `;
 

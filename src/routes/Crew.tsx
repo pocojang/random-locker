@@ -11,13 +11,17 @@ interface Message {
 }
 
 const Container = styled.div`
-  margin: 0 auto;
-  max-width: 600px;
+  margin: 40px auto;
+  max-width: 700px;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 40px;
   height: 100vh;
+  h1 {
+    @media all and (max-width: 600px) {
+      font-size: 25px;
+    }
+  }
 `;
 
 const CrewName = styled.h1`
@@ -34,7 +38,6 @@ const MessageForm = styled.form`
 `;
 
 const MessageInput = styled.input`
-  padding: 0 8px;
   border: 1px solid;
   box-sizing: border-box;
   border-radius: 4px 0 0 4px;
@@ -42,7 +45,7 @@ const MessageInput = styled.input`
   line-height: 36px;
   font-weight: 400;
   font-size: 16px;
-  width: 70%;
+  width: 80%;
   height: 50px;
   margin: 30px 0 20px 0;
   padding: 10px;
@@ -53,7 +56,6 @@ const MessageButton = styled.input`
   border: 1px solid var(--primary);
   background-color: var(--primary);
   border-radius: 0 4px 4px 0;
-  height: 36px;
   border-style: none;
   color: var(--white);
   font-size: 18px;
@@ -68,27 +70,33 @@ const ReceivedMessages = styled.div`
   border: 1px solid;
   background-color: var(--primary-lighten);
   border-radius: 10px;
-  padding: 15px;
 `;
 
 const MessagesWrapper = styled.div`
   display: grid;
-  place-items: center;
   grid-template-columns: 1fr 2fr;
   grid-row-gap: 20px;
   grid-column-gap: 20px;
-  margin: 10px;
+  margin: 20px auto;
   font-size: 18px;
   font-weight: 600;
+  @media all and (max-width: 600px) {
+    display: flex;
+    font-size: 15px;
+  }
 `;
 
 const MessageDate = styled.span`
   color: var(--secondary-lighten);
-  width: 160px;
+  @media all and (max-width: 600px) {
+    width: 20%;
+    margin-left: 10px;
+    text-align: center;
+  }
 `;
 
 const MessageText = styled.span`
-  margin-right: auto;
+  margin-right: 10px;
   color: var(--white);
   line-height: 1.5;
   text-align: start;

@@ -24,6 +24,12 @@ const Header = styled.div`
   h1 {
     font-size: 30px;
     font-weight: 800;
+    @media all and (max-width: 800px) {
+      font-size: 25px;
+    }
+    @media all and (max-width: 600px) {
+      font-size: 22px;
+    }
   }
 `;
 
@@ -37,13 +43,19 @@ const StartButton = styled.button`
   padding: 8px;
   font-size: 20px;
   cursor: pointer;
-  margin: 0;
+  margin: 20px 0 0 0;
   text-align: center;
   &:disabled {
     cursor: not-allowed;
   }
   h2 {
     font-size: 30px;
+    @media all and (max-width: 800px) {
+      font-size: 25px;
+    }
+    @media all and (max-width: 600px) {
+      font-size: 22px;
+    }
   }
 `;
 
@@ -89,18 +101,15 @@ const CrewLocker = styled.li`
 
 const Wrapper = styled.div`
   box-sizing: border-box;
-  padding: 30px;
+  padding: 30px 0;
 `;
 
 const SavedLockerList = styled.ol`
-  display: grid;
-  grid-template-columns: repeat(8, minmax(100px, auto));
-  list-style: none;
-  margin-bottom: 30px;
   gap: 10px;
-  @media all and (max-width: 800px) {
-    grid-gap: 0.25em;
-  }
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
 `;
 
 const SavedLockers = styled.li`
@@ -110,22 +119,18 @@ const SavedLockers = styled.li`
   text-align: center;
   list-style: none;
   margin-left: 0;
-  height: 60px;
   border-radius: 5px;
   background-color: var(--primary);
   font-weight: 800;
-  @media all and (max-width: 750px) {
+  padding: 10px;
+  width: 150px;
+  @media all and (max-width: 800px) {
     font-size: 16px;
   }
-  @media all and (max-width: 630px) {
+  @media all and (max-width: 600px) {
     font-size: 13px;
   }
-  @media all and (max-width: 530px) {
-    font-size: 11px;
-  }
 `;
-
-const DateListMade = styled.div``;
 
 const MemberForm = styled.form`
   display: flex;
@@ -140,7 +145,6 @@ const LockerNameInput = styled.input`
   background-color: var(--white);
   box-sizing: border-box;
   border-radius: 4px 0 0 4px;
-  height: 36px;
   line-height: 36px;
   font-weight: 800;
   font-size: 16px;
@@ -149,6 +153,10 @@ const LockerNameInput = styled.input`
   margin: 30px 0 20px 0;
   padding: 10px;
   text-align: center;
+  @media all and (max-width: 600px) {
+    font-size: 13px;
+    height: 40px;
+  }
 `;
 
 const MemberInput = styled.input`
@@ -165,6 +173,10 @@ const MemberInput = styled.input`
   height: 60px;
   margin: 30px 0 20px 0;
   padding: 10px;
+  @media all and (max-width: 600px) {
+    font-size: 13px;
+    height: 40px;
+  }
 `;
 
 const MemberSubmitButton = styled.input`
@@ -180,12 +192,26 @@ const MemberSubmitButton = styled.input`
   width: 10%;
   font-size: 20px;
   margin: 30px 0 20px 0;
+  @media all and (max-width: 600px) {
+    font-size: 13px;
+    height: 40px;
+  }
 `;
 
 const TargetMemberWrapper = styled.div`
-  margin: 0 80px 20px 80px;
+  margin: 0;
   font-size: 20px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
   line-height: 2;
+  @media all and (max-width: 800px) {
+    font-size: 16px;
+  }
+  @media all and (max-width: 600px) {
+    font-size: 13px;
+  }
 `;
 
 const TargetTitle = styled.span`
@@ -335,12 +361,11 @@ function Crews() {
             .sort((a, b) => Number(a.createdAt) - Number(b.createdAt))
             .map(locker => (
               <SavedLockers key={locker.id}>
-                <DateListMade>
-                  <Link to={`/random-locker/saved-list/${locker.createdAt}`}>
-                    {locker.lockerName}
-                    {getDate(Number(locker.createdAt))}
-                  </Link>
-                </DateListMade>
+                <Link to={`/random-locker/saved-list/${locker.createdAt}`}>
+                  {locker.lockerName}
+                  <br />
+                  {getDate(Number(locker.createdAt))}
+                </Link>
               </SavedLockers>
             ))}
         </SavedLockerList>
