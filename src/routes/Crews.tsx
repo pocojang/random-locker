@@ -47,9 +47,13 @@ const StartButton = styled.button`
   text-align: center;
   &:disabled {
     cursor: not-allowed;
+    background-color: var(--secondary-darken);
   }
   &:hover {
     background-color: var(--primary-darken);
+    &:disabled {
+      background-color: var(--secondary-darken);
+    }
   }
   h2 {
     font-size: 30px;
@@ -90,6 +94,9 @@ const CrewLocker = styled.li`
   font-size: 20px;
   text-align: center;
   line-height: 1.7;
+  &:hover {
+    background-color: var(--primary);
+  }
   @media all and (max-width: 750px) {
     font-size: 16px;
   }
@@ -268,7 +275,9 @@ function Crews() {
 
   const onShuffle = () => {
     if (!submit) {
-      alert("사물함 배정 인원 확인 버튼을 먼저 눌러주세요.");
+      alert(
+        "사물함 배정 인원 확인 버튼을 먼저 눌러주세요. 수정하지 않을 시, 기본값은 프론트엔드 4기 인원입니다."
+      );
       return;
     }
 
@@ -318,7 +327,7 @@ function Crews() {
           type='text'
           value={members}
           onChange={onMembersChange}
-          placeholder='사물함 배정 대상 인원들의 닉네임을 콤마로 구분하여 입력해주세요.'
+          placeholder='사물함 배정 대상 인원들의 닉네임을 콤마로 구분하여 입력해주세요. 수정하지 않을 시, 기본값은 프론트엔드 4기 인원입니다.'
         />
         <MemberSubmitButton type='submit' value='확인' />
       </MemberForm>
